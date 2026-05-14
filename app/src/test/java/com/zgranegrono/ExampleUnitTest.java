@@ -1,4 +1,4 @@
-package com.example.zgranegrono;
+package com.zgranegrono;
 
 import org.junit.Test;
 

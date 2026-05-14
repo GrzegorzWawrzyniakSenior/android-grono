@@ -1,4 +1,4 @@
-package com.example.zgranegrono;
+package com.zgranegrono;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

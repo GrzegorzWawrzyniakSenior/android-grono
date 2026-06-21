@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "878120633197",
+    "project_id": "zgrane-grono-56f13",
+    "storage_bucket": "zgrane-grono-56f13.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878120633197:android:0beb6d87473d79c2645064",
+        "android_client_info": {
+          "package_name": "com.zgranegrono"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaZ2HnVV9N3ORAc5uK7jFYsv1pQ_dATkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

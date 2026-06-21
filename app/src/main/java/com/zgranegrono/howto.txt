@@ -1,0 +1,6 @@
+/ On your website, you can now retrieve the token like this:
+if (window.AndroidApp) {
+    const fcmToken = window.AndroidApp.getFcmToken();
+    const deviceId = window.AndroidApp.getAndroidId();
+    console.log("FCM Token:", fcmToken);
+}

@@ -2,6 +2,7 @@ package com.zgranegrono;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+<<<<<<< HEAD
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -33,28 +34,53 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
+=======
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.webkit.*;
+import android.widget.ProgressBar;
+
+import android.view.Window;
+import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+<<<<<<< HEAD
 import com.google.firebase.messaging.FirebaseMessaging;
 
+=======
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 1234;
+<<<<<<< HEAD
     private static final String TAG = "ZGRANE_FCM";
     private WebView webView;
     private View errorContainer;
     private TextView tvErrorTitle;
     private TextView tvErrorMessage;
 
+=======
+    private WebView webView;
+    private ProgressBar loader;
+
+    @SuppressLint("SetJavaScriptEnabled")
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+<<<<<<< HEAD
         // 1. Initialize notification channel immediately
         createNotificationChannel();
 
@@ -230,19 +256,126 @@ public class MainActivity extends AppCompatActivity {
 
                 handler.cancel();
                 showErrorLayout(true, "Błąd certyfikatu SSL", sslDetails);
+=======
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(android.graphics.Color.parseColor("#FF015C2B"));
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                View decorView = window.getDecorView();
+                int flags = decorView.getSystemUiVisibility();
+                
+                // If the device is in LIGHT mode, the status bar icons should be BLACK
+                // However, our background is DARK GREEN, so we want icons to stay WHITE (remove the flag)
+                // If the user wants black icons for some reason, they would ADD the flag.
+                // Assuming "nice" in dark theme means White icons on Green.
+                // If in Light theme the header is ALSO green, we still want WHITE icons.
+                
+                // If you want BLACK icons in Light theme:
+                boolean isDarkMode = (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES;
+                if (!isDarkMode) {
+                    // This will make status bar icons BLACK (for light backgrounds)
+                    // flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                } else {
+                    flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                }
+                
+                // Since we force Green background, we usually want White icons regardless.
+                // But you asked for "font should be as black" in normal/light theme.
+                if (!isDarkMode) {
+                     flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                } else {
+                     flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                }
+
+                decorView.setSystemUiVisibility(flags);
+            }
+        }
+
+        setContentView(R.layout.activity_main);
+
+        webView = findViewById(R.id.webView);
+        // loader = findViewById(R.id.loader); // Add this if you add a ProgressBar to activity_main.xml
+
+        // webView.clearCache(false); // Do not clear cache for PWA
+        webView.clearHistory();
+
+        WebSettings settings = webView.getSettings();
+
+        // === USER AGENT (Chrome-like) ===
+        settings.setUserAgentString(
+                "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+        );
+
+        // === JS + Web APIs ===
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+
+        // === CACHE ===
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        // === MEDIA ===
+        settings.setMediaPlaybackRequiresUserGesture(false);
+
+        // === FILE ACCESS ===
+        settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+
+        // === GEOLOCATION ===
+        settings.setGeolocationEnabled(true);
+
+        // === MIXED CONTENT (http + https) ===
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
+        // === COOKIES ===
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        if (Build.VERSION.SDK_INT >= 21) {
+            cookieManager.setAcceptThirdPartyCookies(webView, true);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+
+        // === WEBVIEW CLIENT (navigation + loading) ===
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                // if (loader != null) loader.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // if (loader != null) loader.setVisibility(View.GONE);
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+<<<<<<< HEAD
                 if (request != null && request.isForMainFrame()) {
                     CharSequence description = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && error != null)
                             ? error.getDescription() : "Nieznany błąd połączenia";
                     Log.e(TAG, "WebView Error: " + description);
                     showErrorLayout(true, "Błąd połączenia z serwerem", description.toString());
+=======
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    System.out.println("WebView error: " + error.getDescription());
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
                 }
             }
         });
 
+<<<<<<< HEAD
         wv.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
@@ -252,6 +385,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
 
+=======
+        // === CHROME CLIENT (video, fullscreen, dialogs, permissions) ===
+        webView.setWebChromeClient(new WebChromeClient() {
+            // Fullscreen video support
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
             @Override
             public void onShowCustomView(View view, CustomViewCallback callback) {
                 setContentView(view);
@@ -260,6 +398,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onHideCustomView() {
                 setContentView(R.layout.activity_main);
+<<<<<<< HEAD
                 initViews();
                 setupWebView(webView);
             }
@@ -269,11 +408,26 @@ public class MainActivity extends AppCompatActivity {
                 request.grant(request.getResources());
             }
 
+=======
+                webView = findViewById(R.id.webView); // Re-bind after layout change
+            }
+
+            // Grant permissions (Camera, Mic, etc.) to the PWA
+            @Override
+            public void onPermissionRequest(final PermissionRequest request) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    request.grant(request.getResources());
+                }
+            }
+
+            // Geolocation permission auto-allow
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
             @Override
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
                 callback.invoke(origin, true, false);
             }
         });
+<<<<<<< HEAD
     }
 
     private String getSslErrorDetails(SslError error) {
@@ -336,6 +490,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "Loading URL: " + url);
             webView.loadUrl(url);
         }
+=======
+
+        checkAndRequestPermissions();
+
+        // === LOAD URL ===
+        webView.loadUrl("https://zgranegrono.pl?mobile=true");
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
     }
 
     private void checkAndRequestPermissions() {
@@ -346,13 +507,30 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
+<<<<<<< HEAD
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 permissionsNeeded.add(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
+=======
+
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
         if (!permissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this, permissionsNeeded.toArray(new String[0]), PERMISSION_REQUEST_CODE);
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+}
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621

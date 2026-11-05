@@ -15,8 +15,13 @@ android {
         applicationId = "com.zgranegrono"
         minSdk = 29
         targetSdk = 36
+<<<<<<< HEAD
         versionCode = 405
         versionName = "4.0.5"
+=======
+        versionCode = 3
+        versionName = "3.0"
+>>>>>>> 41a12cb1476142a549dd3846450fda1415187621
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

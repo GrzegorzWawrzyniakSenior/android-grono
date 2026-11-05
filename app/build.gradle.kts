@@ -15,8 +15,8 @@ android {
         applicationId = "com.zgranegrono"
         minSdk = 29
         targetSdk = 36
-        versionCode = 401
-        versionName = "4.0.1"
+        versionCode = 405
+        versionName = "4.0.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +33,18 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    doFirst {
+        fileTree("src/main/java").matching { include("**/*.java") }.forEach { file ->
+            val bytes = file.readBytes()
+            if (bytes.size >= 3 && bytes[0] == 0xEF.toByte() && bytes[1] == 0xBB.toByte() && bytes[2] == 0xBF.toByte()) {
+                file.writeBytes(bytes.drop(3).toByteArray())
+                println("Removed UTF-8 BOM from ${file.name}")
+            }
+        }
     }
 }
 

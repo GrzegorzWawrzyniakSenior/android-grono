@@ -5,18 +5,14 @@ plugins {
 
 android {
     namespace = "com.zgranegrono"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.zgranegrono"
         minSdk = 29
         targetSdk = 36
-        versionCode = 405
-        versionName = "4.0.5"
+        versionCode = 406
+        versionName = "4.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
